@@ -65,7 +65,7 @@ class AudioPlayer():
         else:
             return False
 
-    async def convertToUrl(self, nameToConvert):
+    async def   convertToUrl(self, nameToConvert):
         #Takes the name of the song and searches it on youtube
         results = YoutubeSearch(nameToConvert, max_results=1).to_dict()
         #Gets the video id
@@ -118,18 +118,19 @@ class AudioPlayer():
             #Loops around the main playlist
             for i in range(len(self.playlist)):
                 #Allows us to download the information needed to make the queue
-                with youtube_dl.YoutubeDL(self.ytdl_opts) as ydl:
+                #Gets name of song
+                songName = yt_dlp.YoutubeDL(self.ytdl_opts).extract_info(self.playlist[i], download=False)['title']
                     #Retreaves the name of the song
-                    songName = ydl.extract_info(self.playlist[i], download=False)['title']
+                    #songName = ydl.extract_info(self.playlist[i], download=False)['title']
                 #Adds it to queue
                 self.queue.append(songName)
         else:
             #Loops around list of songs being added
             for i in range(len(tempPlaylist)):
                 #Allows us to download the information needed to make the queue
-                with youtube_dl.YoutubeDL(self.ytdl_opts) as ydl:
+                songName = yt_dlp.YoutubeDL(self.ytdl_opts).extract_info(tempPlaylist[i], download=False)['title']
                     #Retreaves the name of the song
-                    songName = ydl.extract_info(tempPlaylist[i], download=False)['title']
+                    #songName = ydl.extract_info(tempPlaylist[i], download=False)['title']
                 #Adds sond to queue 
                 self.queue.append(songName)
 
@@ -197,8 +198,9 @@ class AudioPlayer():
         
     async def playSong(self, voice, url, ctx):
         #Uses the settings for the player to download the audio
-        with youtube_dl.YoutubeDL(self.ytdl_opts) as ydl:
-            ydl.download([url])
+        yt_dlp.YoutubeDL(self.ytdl_opts).download([url])
+        #youtube_dl.YoutubeDL(self.ytdl_opts) as ydl:
+            #ydl.download([url])
 
         #Plays the downloaded audio through the bot
         voice.play(discord.FFmpegPCMAudio(f'{self.guildId} song.mp3'))

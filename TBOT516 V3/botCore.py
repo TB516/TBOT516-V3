@@ -1,6 +1,7 @@
+from email.policy import default
 from botDependencies import *
 
-bot = commands.Bot(command_prefix = '.') 
+bot = commands.Bot(command_prefix = '.', intents = discord.Intents.all())
 #Setting up the core of the bot with the prefix used to call its commands
 
 token = os.environ.get('TBOT516')
