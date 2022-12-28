@@ -1,21 +1,6 @@
 from botDependencies import *
 from botCore import *
 
-async def getArduinoOutput():
-    #Opens the serial port from earlier
-    #ser.open()
-    #Gets the newest line
-    #serialOut = ser.readline()
-    #Closes the port
-    #ser.close()
-
-    #Turn it from a byte to string, then removes "Whitespace"
-    #volumeNum = serialOut.decode().strip()
-    #Turns the string to a float to be set as the volume
-    #volumeNum = float(volumeNum)
-    
-    return volumeNum
-
 class AudioPlayer():
     def __init__(self, guild):
         #Constructs object and sets vars
@@ -117,20 +102,17 @@ class AudioPlayer():
         if(tempPlaylist == []):
             #Loops around the main playlist
             for i in range(len(self.playlist)):
-                #Allows us to download the information needed to make the queue
                 #Gets name of song
                 songName = yt_dlp.YoutubeDL(self.ytdl_opts).extract_info(self.playlist[i], download=False)['title']
-                    #Retreaves the name of the song
-                    #songName = ydl.extract_info(self.playlist[i], download=False)['title']
+
                 #Adds it to queue
                 self.queue.append(songName)
         else:
             #Loops around list of songs being added
             for i in range(len(tempPlaylist)):
-                #Allows us to download the information needed to make the queue
+                #Retreaves the name of the song
                 songName = yt_dlp.YoutubeDL(self.ytdl_opts).extract_info(tempPlaylist[i], download=False)['title']
-                    #Retreaves the name of the song
-                    #songName = ydl.extract_info(tempPlaylist[i], download=False)['title']
+                    
                 #Adds sond to queue 
                 self.queue.append(songName)
 
@@ -187,20 +169,12 @@ class AudioPlayer():
     async def waitForAudioEnd(self, voice):
         #Waits for the audio to be done or for the player to be unpaused
         while(voice.is_playing() or voice.is_paused()):
-            #Uses arduino to get the volume
-            #volumeNum = await getArduinoOutput()
-            
-            #Sets the volume to the arduino output
-            #voice.source.volume = volumeNum
-
             #Wait IN THIS FUNCTION ONLY, value can be ajusted depending on audio quality
             await asyncio.sleep(10)
         
     async def playSong(self, voice, url, ctx):
         #Uses the settings for the player to download the audio
         yt_dlp.YoutubeDL(self.ytdl_opts).download([url])
-        #youtube_dl.YoutubeDL(self.ytdl_opts) as ydl:
-            #ydl.download([url])
 
         #Plays the downloaded audio through the bot
         voice.play(discord.FFmpegPCMAudio(f'{self.guildId} song.mp3'))
