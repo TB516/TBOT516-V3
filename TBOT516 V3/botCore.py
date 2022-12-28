@@ -1,6 +1,5 @@
 from botDependencies import *
 import importlib.util
-import pip
 
 bot = commands.Bot(command_prefix = '.', intents = discord.Intents.all())
 #Setting up the core of the bot with the prefix used to call its commands
