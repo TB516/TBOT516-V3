@@ -4,7 +4,6 @@ import discord
 import random
 import yt_dlp
 import asyncio
-import nacl
 from discord.ext import commands
 from discord.utils import get
 from youtube_search import YoutubeSearch
