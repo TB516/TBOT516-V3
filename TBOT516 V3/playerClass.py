@@ -50,7 +50,7 @@ class AudioPlayer():
         else:
             return False
 
-    async def   convertToUrl(self, nameToConvert):
+    async def convertToUrl(self, nameToConvert):
         #Takes the name of the song and searches it on youtube
         results = YoutubeSearch(nameToConvert, max_results=1).to_dict()
         #Gets the video id
